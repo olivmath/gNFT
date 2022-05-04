@@ -12,14 +12,12 @@ def validate_collection(data: dict, size: int) -> bool:
     combination = 1
     for layer in data:
         if not sum(data[layer].values()) == 100:
-            raise Exception(f"Layer: {layer} have invalid percent, expect 100 found {sum(data[layer].values())}")
+            raise Exception(f"Layer: `{layer}` have invalid percent, expect 100 found {sum(data[layer].values())}")
 
         combination *= len(data[layer].keys())
 
-    print('AKI')
-    print(combination)
     if size > combination:
-        raise Exception(f"Your collection cannot have more than {combination} combinations")
+        raise Exception(f"Your collection cannot have more than `{combination}` combinations")
 
 
 def create_body(data: dict):
@@ -74,7 +72,6 @@ def generate_collection(name: str, model_collection: dict, size: int):
     count = 0
 
     while len(collection) < size:
-        print((len(collection), count))
         nft = create_nft(name, model_collection, collection)
         if duplicated(nft, collection):
             create_nft(name, model_collection, collection)
@@ -82,6 +79,7 @@ def generate_collection(name: str, model_collection: dict, size: int):
             collection.append(nft)
         count += 1
 
+    print((len(collection), count))
     return create_model(
         "Collection",
         **{

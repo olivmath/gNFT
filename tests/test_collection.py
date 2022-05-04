@@ -21,8 +21,6 @@ def test_create_RealArt_collection():
         }
     }
     nft_collection = generate_collection("RealArt", real_art, 10)
-    print()
-    pprint(nft_collection)
     nft = nft_collection.RealArt[0]
     assert len(nft_collection.RealArt) == 10
     assert nft.header.image.startswith("RealArt")
@@ -98,9 +96,9 @@ def test_create_Abstract_collection():
             "z":   10, # 10%
         },
     }
-    nft_collection = generate_collection("Abstract", real_art, 100)
+    nft_collection = generate_collection("Abstract", real_art, 700)
     nft = nft_collection.Abstract[0]
-    assert len(nft_collection.Abstract) == 100
+    assert len(nft_collection.Abstract) == 700
     assert nft.header.image.startswith("Abstract")
     assert nft.header.token[:4] in nft.header.image
     assert nft.body.A in real_art['A'].keys()
@@ -114,7 +112,7 @@ def test_create_Percent_Error_collection():
     real_art =  {
         "A": {
             "x": 90,  # 90%
-            "y": 50,   # 50% ??? should be 5%
+            "y": 50,  # 50% ??? should be 5%
             "z": 5,   # 5%
         }
     }
