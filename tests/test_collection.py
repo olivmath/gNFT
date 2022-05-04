@@ -1,6 +1,4 @@
-from pprint import pprint
-
-from pytest import raises
+from pytest import mark, raises
 from gNFT.collection import generate_collection
 
 
@@ -23,8 +21,10 @@ def test_create_RealArt_collection():
         }
     }
     nft_collection = generate_collection("RealArt", real_art, 10)
-    nft = nft_collection[0]
-    assert len(nft_collection) == 10
+    print()
+    pprint(nft_collection)
+    nft = nft_collection.RealArt[0]
+    assert len(nft_collection.RealArt) == 10
     assert nft.header.image.startswith("RealArt")
     assert nft.header.token[:4] in nft.header.image
     assert nft.body.background in real_art['background'].keys()
@@ -56,8 +56,8 @@ def test_create_People_collection():
         }
     }
     nft_collection = generate_collection("People", real_art, 10)
-    nft = nft_collection[0]
-    assert len(nft_collection) == 10
+    nft = nft_collection.People[0]
+    assert len(nft_collection.People) == 10
     assert nft.header.image.startswith("People")
     assert nft.header.token[:4] in nft.header.image
     assert nft.body.head in real_art['head'].keys()
@@ -98,12 +98,10 @@ def test_create_Abstract_collection():
             "z":   10, # 10%
         },
     }
-    nft_collection = generate_collection("People", real_art, 10)
-    print()
-    pprint(nft_collection)
-    nft = nft_collection[0]
-    assert len(nft_collection) == 10
-    assert nft.header.image.startswith("People")
+    nft_collection = generate_collection("Abstract", real_art, 100)
+    nft = nft_collection.Abstract[0]
+    assert len(nft_collection.Abstract) == 100
+    assert nft.header.image.startswith("Abstract")
     assert nft.header.token[:4] in nft.header.image
     assert nft.body.A in real_art['A'].keys()
     assert nft.body.B in real_art['B'].keys()
@@ -112,7 +110,7 @@ def test_create_Abstract_collection():
     assert nft.body.F in real_art['F'].keys()
 
 
-def test_create_Error_collection():
+def test_create_Percent_Error_collection():
     real_art =  {
         "A": {
             "x": 90,  # 90%
@@ -122,3 +120,32 @@ def test_create_Error_collection():
     }
     with raises(Exception):
         generate_collection("Error", real_art, 10)
+
+
+def test_create_Combination_Error_1_collection():
+    real_art =  {
+        "A": {        # 3 * 1 == 3 not 10 !
+            "x": 90,  # 90%
+            "y": 5,   # 5%
+            "z": 5,   # 5%
+        }
+    }
+    with raises(Exception):
+        generate_collection("Error", real_art, 10)
+
+
+def test_create_Combination_Error_2_collection():
+    other =  {
+        "A": {        # 3 * 3 == 9 not 100 !
+            "x": 90,  # 90%
+            "y": 5,   # 5%
+            "z": 5,   # 5%
+        },
+        "B": {
+            "x": 90,  # 90%
+            "y": 5,   # 5%
+            "z": 5,   # 5%
+        }
+    }
+    with raises(Exception):
+        generate_collection("Error", other, 100)
