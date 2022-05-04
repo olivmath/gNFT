@@ -1,9 +1,9 @@
 from PIL import Image
-from IPython.display import display
 import random
 import json
 import sys
 
+TOTAL_IMAGES = 1
 sys.setrecursionlimit(10000)
 print(sys.getrecursionlimit())
 
@@ -79,8 +79,7 @@ extras_files = {
 
 print("This is stage 3")
 
-TOTAL_IMAGES = 1000
-all_images = [] 
+all_images = []
 
 def create_new_image():
 
@@ -186,7 +185,7 @@ for item in all_images:
     #Convert to RGB
     rgb_im = com4.convert('RGB')
     file_name = str(item["tokenId"]) + ".png"
-    rgb_im.save("./images/" + file_name)
+    rgb_im.save("./NFTs/" + file_name)
 
 print("This is stage 10")
 #Generate metadata for each image
